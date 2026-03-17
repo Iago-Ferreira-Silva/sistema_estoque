@@ -1,7 +1,3 @@
-
-/*FUNCIONAMENTO DO BD- AQUI NAO VAI INTERFERIR NO BD*/
-
-/**
 CREATE TABLE if NOT EXISTS `usuario` (
   `id_usuario` INT(6) NOT NULL AUTO_INCREMENT,
   `nome` VARCHAR(100) NOT NULL,
@@ -34,12 +30,11 @@ CREATE TABLE if NOT EXISTS `setor` (
 CREATE TABLE if NOT EXISTS `entrada_produto` (
   `id_entrada` INT(6) NOT NULL AUTO_INCREMENT,
   `id_produto` INT(6) NOT NULL,
-  `id_usuario` INT(6) NOT NULL,
   `quantidade` INT(10) NOT NULL,
   `data_entrada` DATETIME NOT NULL,
   PRIMARY KEY (`id_entrada`),
   FOREIGN KEY (`id_produto`) REFERENCES `produto`(`id_produto`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE if NOT EXISTS `saida_produto` (
@@ -52,7 +47,7 @@ CREATE TABLE if NOT EXISTS `saida_produto` (
   PRIMARY KEY (`id_saida`),
   FOREIGN KEY (`id_produto`) REFERENCES `produto`(`id_produto`) ON DELETE CASCADE,
   FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE,
-  FOREIGN KEY (`id_setor`) REFERENCES `setor`(`id_setor`) ON DELETE CASCADE,
+  FOREIGN KEY (`id_setor`) REFERENCES `setor`(`id_setor`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE if NOT EXISTS `relatorio` (
@@ -65,4 +60,4 @@ CREATE TABLE if NOT EXISTS `relatorio` (
   PRIMARY KEY (`id_relatorio`),
   FOREIGN KEY (`id_produto`) REFERENCES `produto`(`id_produto`) ON DELETE CASCADE,
   FOREIGN KEY (`id_usuario`) REFERENCES `usuario`(`id_usuario`) ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;*/
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

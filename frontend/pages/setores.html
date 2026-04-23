@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Setores — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/produtos.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">📦</span>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item active">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">IA</div>
+          <div class="user-details">
+            <span class="user-name">Iago Ferreira</span>
+            <span class="user-role">Gestor</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Setores</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <div class="actions-bar">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Buscar setor..."
+            />
+          </div>
+          <button class="btn-primary" id="btnNovoSetor">+ Novo Setor</button>
+        </div>
+
+        <div class="card">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Nome do Setor</th>
+                  <th>Responsável</th>
+                  <th>Descrição</th>
+                  <th>Produtos Vinculados</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="setoresBody"></tbody>
+            </table>
+          </div>
+          <div class="table-empty" id="tableEmpty" hidden>
+            <span>🏢</span>
+            <p>Nenhum setor encontrado.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Novo Setor</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nomeSetor">Nome do Setor</label>
+            <input type="text" id="nomeSetor" placeholder="Ex: Secretaria" />
+          </div>
+          <div class="form-group">
+            <label for="responsavel">Responsável</label>
+            <input type="text" id="responsavel" placeholder="Ex: Maria Silva" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="descricaoSetor">Descrição</label>
+          <input type="text" id="descricaoSetor" placeholder="Descreva brevemente o setor..." />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelar">Cancelar</button>
+        <button class="btn-primary" id="btnSalvar">Salvar Setor</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/setores.js"></script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Movimentações — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/produtos.css" />
+  <link rel="stylesheet" href="../css/movimentacoes.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">📦</span>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item active">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">IA</div>
+          <div class="user-details">
+            <span class="user-name">Iago Ferreira</span>
+            <span class="user-role">Gestor</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Movimentações</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- RESUMO DO DIA -->
+        <div class="mov-summary">
+          <div class="summary-card summary-in">
+            <span class="summary-icon">📥</span>
+            <div class="summary-info">
+              <span class="summary-label">Entradas hoje</span>
+              <span class="summary-value" id="entradasHoje">0</span>
+            </div>
+          </div>
+          <div class="summary-card summary-out">
+            <span class="summary-icon">📤</span>
+            <div class="summary-info">
+              <span class="summary-label">Saídas hoje</span>
+              <span class="summary-value" id="saidasHoje">0</span>
+            </div>
+          </div>
+          <div class="summary-card summary-total">
+            <span class="summary-icon">🔄</span>
+            <div class="summary-info">
+              <span class="summary-label">Total registrado</span>
+              <span class="summary-value" id="totalMov">0</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- BARRA DE AÇÕES -->
+        <div class="actions-bar">
+          <div class="filters-left">
+            <div class="search-wrapper">
+              <span class="search-icon">🔍</span>
+              <input
+                type="text"
+                id="searchInput"
+                class="search-input"
+                placeholder="Buscar produto ou setor..."
+              />
+            </div>
+            <select id="filterTipo" class="filter-select">
+              <option value="">Todos os tipos</option>
+              <option value="entrada">Entrada</option>
+              <option value="saida">Saída</option>
+            </select>
+            <input type="date" id="filterData" class="filter-select" />
+          </div>
+          <button class="btn-primary" id="btnNovaMovimentacao">+ Nova Movimentação</button>
+        </div>
+
+        <!-- TABELA -->
+        <div class="card">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Tipo</th>
+                  <th>Quantidade</th>
+                  <th>Setor</th>
+                  <th>Responsável</th>
+                  <th>Observação</th>
+                  <th>Data</th>
+                </tr>
+              </thead>
+              <tbody id="movBody"></tbody>
+            </table>
+          </div>
+          <div class="table-empty" id="tableEmpty" hidden>
+            <span>🔄</span>
+            <p>Nenhuma movimentação encontrada.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Nova Movimentação</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- SELETOR DE TIPO -->
+        <div class="tipo-selector">
+          <button class="tipo-btn active" id="btnEntrada" data-tipo="entrada">
+            📥 Entrada
+          </button>
+          <button class="tipo-btn" id="btnSaida" data-tipo="saida">
+            📤 Saída
+          </button>
+        </div>
+        <input type="hidden" id="tipoMov" value="entrada" />
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="produtoMov">Produto</label>
+            <select id="produtoMov">
+              <option value="">Selecione...</option>
+              <option value="Papel A4">Papel A4</option>
+              <option value="Detergente 500ml">Detergente 500ml</option>
+              <option value="Caneta Azul">Caneta Azul</option>
+              <option value="Álcool 70%">Álcool 70%</option>
+              <option value="Papel Toalha">Papel Toalha</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input type="number" id="quantidade" min="1" placeholder="0" />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="setorMov">Setor</label>
+            <select id="setorMov">
+              <option value="">Selecione...</option>
+              <option value="Secretaria">Secretaria</option>
+              <option value="Coordenação">Coordenação</option>
+              <option value="Almoxarifado">Almoxarifado</option>
+              <option value="Limpeza">Limpeza</option>
+              <option value="Administrativo">Administrativo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="responsavelMov">Responsável</label>
+            <input type="text" id="responsavelMov" placeholder="Nome do responsável" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="observacao">Observação (opcional)</label>
+          <input type="text" id="observacao" placeholder="Ex: Reposição mensal" />
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelar">Cancelar</button>
+        <button class="btn-primary" id="btnSalvar">Registrar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/movimentacoes.js"></script>
+</body>
+</html>

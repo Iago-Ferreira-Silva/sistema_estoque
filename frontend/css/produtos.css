@@ -1,0 +1,296 @@
+/* ================================
+   BARRA DE AÇÕES
+================================ */
+.actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+  max-width: 360px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(88,175,155,0.12);
+}
+
+.actions-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-select {
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface);
+  font-size: 0.875rem;
+  color: var(--color-text);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filter-select:focus {
+  border-color: var(--color-accent);
+}
+
+/* ================================
+   BOTÕES GLOBAIS
+================================ */
+.btn-primary {
+  padding: 10px 18px;
+  background-color: var(--color-accent);
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s, transform 0.1s;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn-primary:hover  { background-color: var(--color-accent-dark); }
+.btn-primary:active { transform: scale(0.97); }
+
+.btn-secondary {
+  padding: 10px 18px;
+  background-color: transparent;
+  color: var(--color-text-muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border);
+  transition: border-color 0.2s, color 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-secondary:hover {
+  border-color: var(--color-text-muted);
+  color: var(--color-text);
+}
+
+/* Botões dentro da tabela */
+.btn-edit, .btn-delete {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.78rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-edit   { background-color: #e8f4f0; color: var(--color-accent); }
+.btn-delete { background-color: #fdecea; color: var(--color-danger); }
+.btn-edit:hover, .btn-delete:hover { opacity: 0.75; }
+
+/* ================================
+   BADGES DE STATUS
+================================ */
+.badge-ok      { background-color: var(--color-accent-light); color: var(--color-accent); }
+.badge-warning { background-color: #fef9e7; color: var(--color-warning); }
+.badge-danger  { background-color: #fdecea; color: var(--color-danger); }
+
+/* ================================
+   TABELA VAZIA
+================================ */
+.table-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  gap: 12px;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.table-empty span { font-size: 2.5rem; }
+
+/* ================================
+   MODAL
+================================ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(22,35,48,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 16px;
+}
+
+.modal {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+  animation: modalIn 0.25s ease;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  background-color: var(--color-surface);
+  z-index: 1;
+}
+
+.modal-title {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-text);
+}
+
+.modal-close {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+  transition: color 0.2s;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.modal-close:hover { color: var(--color-text); }
+
+.modal-body {
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.modal-body .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-body label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.modal-body input,
+.modal-body select {
+  padding: 10px 12px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-bg);
+  font-size: 0.9rem;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.modal-body input:focus,
+.modal-body select:focus {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(88,175,155,0.12);
+  background-color: #fff;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ================================
+   RESPONSIVO — TABLET
+================================ */
+@media (max-width: 768px) {
+  .actions-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-wrapper {
+    max-width: 100%;
+  }
+
+  .actions-right {
+    justify-content: space-between;
+  }
+
+  .filter-select {
+    flex: 1;
+  }
+}
+
+/* ================================
+   RESPONSIVO — MOBILE
+================================ */
+@media (max-width: 540px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-footer {
+    flex-direction: column-reverse;
+  }
+
+  .modal-footer .btn-primary,
+  .modal-footer .btn-secondary {
+    width: 100%;
+    text-align: center;
+  }
+}

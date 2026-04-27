@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/dashboard.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <span class="sidebar-logo">📦</span>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar">IA</div>
+          <div class="user-details">
+            <span class="user-name">Iago Ferreira</span>
+            <span class="user-role">Gestor</span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
+      </div>
+    </aside>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <div class="main-content">
+
+      <!-- TOPBAR -->
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Dashboard</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <!-- CONTEÚDO -->
+      <main class="content-area">
+
+        <!-- KPI CARDS -->
+        <section class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background: #EBF5FB;">📦</div>
+            <div class="kpi-info">
+              <span class="kpi-label">Total de Produtos</span>
+              <span class="kpi-value" id="totalProdutos">—</span>
+            </div>
+          </div>
+          <div class="kpi-card kpi-danger">
+            <div class="kpi-icon" style="background: #FDEDEC;">⚠️</div>
+            <div class="kpi-info">
+              <span class="kpi-label">Estoque Crítico</span>
+              <span class="kpi-value" id="estoqueCritico">—</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background: #EAFAF1;">🧾</div>
+            <div class="kpi-info">
+              <span class="kpi-label">Solicitações Pendentes</span>
+              <span class="kpi-value" id="solicitacoesPendentes">—</span>
+            </div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-icon" style="background: #FEF9E7;">🔄</div>
+            <div class="kpi-info">
+              <span class="kpi-label">Movimentações Hoje</span>
+              <span class="kpi-value" id="movimentacoesHoje">—</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- ALERTAS E TABELA -->
+        <section class="dashboard-grid">
+
+          <!-- ALERTAS DE ESTOQUE -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">⚠️ Alertas de Estoque</h2>
+              <a href="produtos.html" class="card-link">Ver todos</a>
+            </div>
+            <ul class="alert-list" id="alertList">
+              <li class="alert-item">
+                <span class="alert-name">Papel A4</span>
+                <span class="alert-stock danger">2 un.</span>
+              </li>
+              <li class="alert-item">
+                <span class="alert-name">Detergente 500ml</span>
+                <span class="alert-stock warning">5 un.</span>
+              </li>
+              <li class="alert-item">
+                <span class="alert-name">Caneta Azul</span>
+                <span class="alert-stock danger">1 un.</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- MOVIMENTAÇÕES RECENTES -->
+          <div class="card card-wide">
+            <div class="card-header">
+              <h2 class="card-title">🔄 Movimentações Recentes</h2>
+              <a href="movimentacoes.html" class="card-link">Ver todas</a>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table" id="movTable">
+                <thead>
+                  <tr>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th>Quantidade</th>
+                    <th>Setor</th>
+                    <th>Data</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Resma de Papel A4</td>
+                    <td><span class="badge badge-out">Saída</span></td>
+                    <td>3</td>
+                    <td>Secretaria</td>
+                    <td>28/03/2025</td>
+                  </tr>
+                  <tr>
+                    <td>Álcool 70%</td>
+                    <td><span class="badge badge-in">Entrada</span></td>
+                    <td>10</td>
+                    <td>Almoxarifado</td>
+                    <td>28/03/2025</td>
+                  </tr>
+                  <tr>
+                    <td>Caneta Azul</td>
+                    <td><span class="badge badge-out">Saída</span></td>
+                    <td>5</td>
+                    <td>Coordenação</td>
+                    <td>27/03/2025</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/dashboard.js"></script>
+</body>
+</html>

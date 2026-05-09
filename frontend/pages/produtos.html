@@ -12,10 +12,9 @@
 
   <div class="app-wrapper">
 
-    <!-- SIDEBAR -->
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <span class="sidebar-logo">📦</span>
+        <div class="sidebar-logo">📦</div>
         <span class="sidebar-title">EstoqueIF</span>
       </div>
       <nav class="sidebar-nav">
@@ -50,17 +49,16 @@
       </nav>
       <div class="sidebar-footer">
         <div class="user-info">
-          <div class="user-avatar">IA</div>
+          <div class="user-avatar"></div>
           <div class="user-details">
-            <span class="user-name">Iago Ferreira</span>
-            <span class="user-role">Gestor</span>
+            <span class="user-name"></span>
+            <span class="user-role"></span>
           </div>
         </div>
         <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
       </div>
     </aside>
 
-    <!-- CONTEÚDO PRINCIPAL -->
     <div class="main-content">
 
       <header class="topbar">
@@ -73,7 +71,6 @@
 
       <main class="content-area">
 
-        <!-- BARRA DE AÇÕES -->
         <div class="actions-bar">
           <div class="search-wrapper">
             <span class="search-icon">🔍</span>
@@ -95,7 +92,6 @@
           </div>
         </div>
 
-        <!-- TABELA DE PRODUTOS -->
         <div class="card">
           <div class="table-wrapper">
             <table class="data-table" id="produtosTable">
@@ -104,15 +100,15 @@
                   <th>Produto</th>
                   <th>Categoria</th>
                   <th>Unidade</th>
+                  <th>Unidade Mínima</th>
+                  <th>Fator</th>
                   <th>Qtd. Atual</th>
                   <th>Qtd. Mínima</th>
                   <th>Status</th>
                   <th>Ações</th>
                 </tr>
               </thead>
-              <tbody id="produtosBody">
-                <!-- Populado via JS -->
-              </tbody>
+              <tbody id="produtosBody"></tbody>
             </table>
           </div>
           <div class="table-empty" id="tableEmpty" hidden>
@@ -125,7 +121,6 @@
     </div>
   </div>
 
-  <!-- MODAL DE CADASTRO/EDIÇÃO -->
   <div class="modal-overlay" id="modalOverlay" hidden>
     <div class="modal">
       <div class="modal-header">
@@ -149,9 +144,10 @@
             </select>
           </div>
         </div>
+
         <div class="form-row">
           <div class="form-group">
-            <label for="unidade">Unidade de Medida</label>
+            <label for="unidade">Unidade Principal</label>
             <select id="unidade">
               <option value="un">Unidade (un)</option>
               <option value="cx">Caixa (cx)</option>
@@ -161,20 +157,53 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="qtdAtual">Quantidade Atual</label>
-            <input type="number" id="qtdAtual" min="0" placeholder="0" />
+            <label for="unidadeMinima">Unidade Mínima</label>
+            <input
+              type="text"
+              id="unidadeMinima"
+              placeholder="Ex: folha, mililitro, unidade"
+            />
           </div>
         </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fatorConversao">
+              Fator de Conversão
+              <span class="label-hint" id="fatorHint"></span>
+            </label>
+            <input
+              type="number"
+              id="fatorConversao"
+              min="1"
+              placeholder="Ex: 12"
+            />
+            <small class="input-hint" id="fatorExemplo"></small>
+          </div>
+          <div class="form-group">
+            <label for="qtdAtual">Quantidade Atual</label>
+            <input type="number" id="qtdAtual" min="0" placeholder="0" />
+            <small class="input-hint" id="qtdAtualHint"></small>
+          </div>
+        </div>
+
         <div class="form-row">
           <div class="form-group">
             <label for="qtdMinima">Quantidade Mínima</label>
             <input type="number" id="qtdMinima" min="0" placeholder="0" />
+            <small class="input-hint" id="qtdMinimaHint"></small>
           </div>
           <div class="form-group">
             <label for="descricao">Descrição (opcional)</label>
             <input type="text" id="descricao" placeholder="Observações sobre o produto" />
           </div>
         </div>
+
+        <div class="conversao-aviso" id="conversaoAviso" hidden>
+          <span>ℹ️</span>
+          <p id="conversaoAvisoTexto"></p>
+        </div>
+
       </div>
 
       <div class="modal-footer">

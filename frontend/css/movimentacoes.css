@@ -109,3 +109,75 @@
     align-items: stretch;
   }
 }
+
+/* ================================
+   CARD DE INFORMAÇÕES DO PRODUTO
+   Aparece quando o usuário seleciona
+   um produto no modal
+================================ */
+.produto-info-card {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  margin-top: -8px;
+}
+
+.produto-info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.produto-info-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.produto-info-value {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* ================================
+   PREVIEW DA CONVERSÃO
+   Mostra o resultado em tempo real
+================================ */
+.conversao-preview {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: var(--color-accent-light);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  margin-top: -4px;
+}
+
+.conversao-icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.conversao-texto {
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* ================================
+   RESPONSIVO
+================================ */
+@media (max-width: 540px) {
+  .produto-info-card {
+    grid-template-columns: 1fr;
+  }
+}

@@ -15,7 +15,7 @@
 
     <aside class="sidebar" id="sidebar">
       <div class="sidebar-header">
-        <span class="sidebar-logo">📦</span>
+        <div class="sidebar-logo">📦</div>
         <span class="sidebar-title">EstoqueIF</span>
       </div>
       <nav class="sidebar-nav">
@@ -50,10 +50,10 @@
       </nav>
       <div class="sidebar-footer">
         <div class="user-info">
-          <div class="user-avatar">IA</div>
+          <div class="user-avatar"></div>
           <div class="user-details">
-            <span class="user-name">Iago Ferreira</span>
-            <span class="user-role">Gestor</span>
+            <span class="user-name"></span>
+            <span class="user-role"></span>
           </div>
         </div>
         <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
@@ -128,6 +128,7 @@
                   <th>Produto</th>
                   <th>Tipo</th>
                   <th>Quantidade</th>
+                  <th>Convertido</th>
                   <th>Setor</th>
                   <th>Responsável</th>
                   <th>Observação</th>
@@ -156,7 +157,7 @@
       </div>
       <div class="modal-body">
 
-        <!-- SELETOR DE TIPO -->
+        <!-- TIPO -->
         <div class="tipo-selector">
           <button class="tipo-btn active" id="btnEntrada" data-tipo="entrada">
             📥 Entrada
@@ -167,45 +168,73 @@
         </div>
         <input type="hidden" id="tipoMov" value="entrada" />
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="produtoMov">Produto</label>
-            <select id="produtoMov">
-              <option value="">Selecione...</option>
-              <option value="Papel A4">Papel A4</option>
-              <option value="Detergente 500ml">Detergente 500ml</option>
-              <option value="Caneta Azul">Caneta Azul</option>
-              <option value="Álcool 70%">Álcool 70%</option>
-              <option value="Papel Toalha">Papel Toalha</option>
-            </select>
+        <!-- PRODUTO -->
+        <div class="form-group">
+          <label for="produtoMov">Produto</label>
+          <select id="produtoMov">
+            <option value="">Selecione um produto...</option>
+          </select>
+        </div>
+
+        <!-- INFORMAÇÕES DO PRODUTO SELECIONADO -->
+        <div class="produto-info-card" id="produtoInfoCard" hidden>
+          <div class="produto-info-item">
+            <span class="produto-info-label">Unidade principal</span>
+            <span class="produto-info-value" id="infoPrincipal">—</span>
           </div>
-          <div class="form-group">
-            <label for="quantidade">Quantidade</label>
-            <input type="number" id="quantidade" min="1" placeholder="0" />
+          <div class="produto-info-item">
+            <span class="produto-info-label">Unidade mínima</span>
+            <span class="produto-info-value" id="infoMinima">—</span>
+          </div>
+          <div class="produto-info-item">
+            <span class="produto-info-label">Fator de conversão</span>
+            <span class="produto-info-value" id="infoFator">—</span>
+          </div>
+          <div class="produto-info-item">
+            <span class="produto-info-label">Estoque atual</span>
+            <span class="produto-info-value" id="infoEstoque">—</span>
           </div>
         </div>
 
+        <!-- QUANTIDADE E UNIDADE -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="quantidade">Quantidade</label>
+            <input
+              type="number"
+              id="quantidade"
+              min="0.01"
+              step="0.01"
+              placeholder="0"
+              disabled
+            />
+          </div>
+          <div class="form-group">
+            <label for="unidadeMov">Unidade da Movimentação</label>
+            <select id="unidadeMov" disabled>
+              <option value="">Selecione o produto primeiro</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PREVIEW DA CONVERSÃO -->
+        <div class="conversao-preview" id="conversaoPreview" hidden>
+          <span class="conversao-icon">🔁</span>
+          <span class="conversao-texto" id="conversaoTexto"></span>
+        </div>
+
+        <!-- SETOR E OBSERVAÇÃO -->
         <div class="form-row">
           <div class="form-group">
             <label for="setorMov">Setor</label>
             <select id="setorMov">
               <option value="">Selecione...</option>
-              <option value="Secretaria">Secretaria</option>
-              <option value="Coordenação">Coordenação</option>
-              <option value="Almoxarifado">Almoxarifado</option>
-              <option value="Limpeza">Limpeza</option>
-              <option value="Administrativo">Administrativo</option>
             </select>
           </div>
           <div class="form-group">
-            <label for="responsavelMov">Responsável</label>
-            <input type="text" id="responsavelMov" placeholder="Nome do responsável" />
+            <label for="observacao">Observação (opcional)</label>
+            <input type="text" id="observacao" placeholder="Ex: Reposição mensal" />
           </div>
-        </div>
-
-        <div class="form-group">
-          <label for="observacao">Observação (opcional)</label>
-          <input type="text" id="observacao" placeholder="Ex: Reposição mensal" />
         </div>
 
       </div>

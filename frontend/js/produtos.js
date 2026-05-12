@@ -59,16 +59,32 @@ function renderTabela(lista) {
 
   empty.hidden = true;
   tbody.innerHTML = lista.map(p => {
-    const s = getStatus(p.qtd_atual, p.qtd_minima);
+    const s            = getStatus(p.qtd_atual, p.qtd_minima);
+    const qtdAtualPrinc  = Number(p.qtd_atual  / p.fator_conversao).toLocaleString('pt-BR');
+    const qtdMinimaPrinc = Number(p.qtd_minima / p.fator_conversao).toLocaleString('pt-BR');
+    const qtdAtualMin    = Number(p.qtd_atual).toLocaleString('pt-BR');
+    const qtdMinimaMin   = Number(p.qtd_minima).toLocaleString('pt-BR');
+    const unidPrinc      = unidadeNome[p.unidade] || p.unidade;
+
     return `
       <tr>
         <td><strong>${p.nome}</strong></td>
         <td>${categorias[p.categoria] || p.categoria}</td>
-        <td>${unidadeNome[p.unidade] || p.unidade}</td>
+        <td>${unidPrinc}</td>
         <td>${p.unidade_minima}</td>
         <td>${p.fator_conversao} ${p.unidade_minima}/${p.unidade}</td>
-        <td>${formatarQtd(p.qtd_atual, p.unidade_minima)}</td>
-        <td>${formatarQtd(p.qtd_minima, p.unidade_minima)}</td>
+        <td>
+          ${qtdAtualPrinc} ${unidPrinc}
+          <small style="color: var(--color-text-muted); display: block;">
+            ${qtdAtualMin} ${p.unidade_minima}
+          </small>
+        </td>
+        <td>
+          ${qtdMinimaPrinc} ${unidPrinc}
+          <small style="color: var(--color-text-muted); display: block;">
+            ${qtdMinimaMin} ${p.unidade_minima}
+          </small>
+        </td>
         <td><span class="badge ${s.cls}">${s.label}</span></td>
         <td class="actions-cell">
           <button class="btn-edit"   onclick="abrirEdicao(${p.id})">Editar</button>
@@ -77,7 +93,6 @@ function renderTabela(lista) {
       </tr>`;
   }).join('');
 }
-
 // FILTRAR
 function filtrar() {
   const termo = document.getElementById('searchInput').value.toLowerCase();

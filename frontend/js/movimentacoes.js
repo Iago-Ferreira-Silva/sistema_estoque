@@ -1,9 +1,9 @@
 inicializarPagina();
 
 // ESTADO
-let movimentacoes = [];
-let produtos      = [];
-let setores       = [];
+let movimentacoes     = [];
+let produtos          = [];
+let setores           = [];
 let produtoSelecionado = null;
 
 const unidadeNome = {
@@ -39,42 +39,38 @@ async function carregarDados() {
 
 // POPULAR SELECTS DO MODAL
 function popularSelects() {
-  // Produtos
   const selectProduto = document.getElementById('produtoMov');
   selectProduto.innerHTML = '<option value="">Selecione um produto...</option>' +
     produtos.map(p =>
       `<option value="${p.id}">${p.nome} (${unidadeNome[p.unidade] || p.unidade})</option>`
     ).join('');
 
-  // Setores
   const selectSetor = document.getElementById('setorMov');
   selectSetor.innerHTML = '<option value="">Selecione...</option>' +
     setores.map(s => `<option value="${s.id}">${s.nome}</option>`).join('');
 }
 
 // QUANDO O USUÁRIO SELECIONA UM PRODUTO
-// Exibe as informações e libera os campos
 document.getElementById('produtoMov').addEventListener('change', function () {
   const id = Number(this.value);
   produtoSelecionado = produtos.find(p => p.id === id) || null;
 
-  const infoCard     = document.getElementById('produtoInfoCard');
-  const qtdInput     = document.getElementById('quantidade');
+  const infoCard      = document.getElementById('produtoInfoCard');
+  const qtdInput      = document.getElementById('quantidade');
   const unidadeSelect = document.getElementById('unidadeMov');
-  const preview      = document.getElementById('conversaoPreview');
+  const preview       = document.getElementById('conversaoPreview');
 
   if (!produtoSelecionado) {
-    infoCard.hidden      = true;
-    qtdInput.disabled    = true;
+    infoCard.hidden       = true;
+    qtdInput.disabled     = true;
     unidadeSelect.disabled = true;
-    preview.hidden       = true;
-    qtdInput.value       = '';
+    preview.hidden        = true;
+    qtdInput.value        = '';
     return;
   }
 
   const p = produtoSelecionado;
 
-  // Preenche o card de informações
   infoCard.hidden = false;
   document.getElementById('infoPrincipal').textContent =
     unidadeNome[p.unidade] || p.unidade;
@@ -85,13 +81,10 @@ document.getElementById('produtoMov').addEventListener('change', function () {
   document.getElementById('infoEstoque').textContent =
     `${Number(p.qtd_atual).toLocaleString('pt-BR')} ${p.unidade_minima}`;
 
-  // Libera os campos de quantidade e unidade
-  qtdInput.disabled    = false;
-  qtdInput.value       = '';
+  qtdInput.disabled      = false;
+  qtdInput.value         = '';
   unidadeSelect.disabled = false;
 
-  // Monta as opções de unidade para essa movimentação
-  // O usuário pode escolher entre a unidade principal ou a mínima
   unidadeSelect.innerHTML = `
     <option value="${p.unidade}" data-fator="${p.fator_conversao}">
       ${unidadeNome[p.unidade] || p.unidade} (unidade principal)
@@ -106,16 +99,15 @@ document.getElementById('produtoMov').addEventListener('change', function () {
 });
 
 // PREVIEW DA CONVERSÃO EM TEMPO REAL
-// Atualiza enquanto o usuário digita
 function atualizarPreviewConversao() {
   if (!produtoSelecionado) return;
 
-  const quantidade     = Number(document.getElementById('quantidade').value);
-  const unidadeSelect  = document.getElementById('unidadeMov');
+  const quantidade       = Number(document.getElementById('quantidade').value);
+  const unidadeSelect    = document.getElementById('unidadeMov');
   const unidadeEscolhida = unidadeSelect.value;
-  const fatorOpcao     = Number(unidadeSelect.selectedOptions[0]?.dataset.fator || 1);
-  const preview        = document.getElementById('conversaoPreview');
-  const textoPreview   = document.getElementById('conversaoTexto');
+  const fatorOpcao       = Number(unidadeSelect.selectedOptions[0]?.dataset.fator || 1);
+  const preview          = document.getElementById('conversaoPreview');
+  const textoPreview     = document.getElementById('conversaoTexto');
 
   if (!quantidade || quantidade <= 0) {
     preview.hidden = true;
@@ -127,7 +119,6 @@ function atualizarPreviewConversao() {
 
   preview.hidden = false;
 
-  // Se a unidade escolhida é a mínima, não precisa converter
   if (fatorOpcao === 1) {
     textoPreview.textContent =
       `${quantidade} ${unidadeEscolhida} serão registrados diretamente no estoque.`;
@@ -182,7 +173,7 @@ function renderTabela(lista) {
       <td>${Number(m.quantidade).toLocaleString('pt-BR')} ${m.unidade_mov}</td>
       <td>${Number(m.quantidade_convertida).toLocaleString('pt-BR')} ${m.unidade_minima || ''}</td>
       <td>${m.setor}</td>
-      <td>${m.responsavel}</td>
+      <td>${m.responsavel || '—'}</td>
       <td>${m.observacao || '—'}</td>
       <td>${formatarData(m.criado_em)}</td>
     </tr>
@@ -216,16 +207,17 @@ document.getElementById('filterData').addEventListener('change', filtrar);
 const overlay = document.getElementById('modalOverlay');
 
 function limparModal() {
-  document.getElementById('produtoMov').value  = '';
-  document.getElementById('quantidade').value  = '';
-  document.getElementById('setorMov').value    = '';
-  document.getElementById('observacao').value  = '';
-  document.getElementById('tipoMov').value     = 'entrada';
-  document.getElementById('produtoInfoCard').hidden  = true;
-  document.getElementById('conversaoPreview').hidden = true;
-  document.getElementById('quantidade').disabled     = true;
-  document.getElementById('unidadeMov').disabled     = true;
-  document.getElementById('unidadeMov').innerHTML    =
+  document.getElementById('produtoMov').value     = '';
+  document.getElementById('quantidade').value     = '';
+  document.getElementById('responsavelMov').value = '';
+  document.getElementById('setorMov').value       = '';
+  document.getElementById('observacao').value     = '';
+  document.getElementById('tipoMov').value        = 'entrada';
+  document.getElementById('produtoInfoCard').hidden   = true;
+  document.getElementById('conversaoPreview').hidden  = true;
+  document.getElementById('quantidade').disabled      = true;
+  document.getElementById('unidadeMov').disabled      = true;
+  document.getElementById('unidadeMov').innerHTML     =
     '<option value="">Selecione o produto primeiro</option>';
   document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('btnEntrada').classList.add('active');
@@ -244,7 +236,6 @@ document.getElementById('modalClose').addEventListener('click', fecharModal);
 document.getElementById('btnCancelar').addEventListener('click', fecharModal);
 overlay.addEventListener('click', e => { if (e.target === overlay) fecharModal(); });
 
-// Seletor de tipo entrada/saída
 document.querySelectorAll('.tipo-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('active'));
@@ -260,23 +251,22 @@ document.getElementById('btnSalvar').addEventListener('click', async () => {
     return;
   }
 
-  const tipo         = document.getElementById('tipoMov').value;
-  const quantidade   = Number(document.getElementById('quantidade').value);
-  const setorId      = Number(document.getElementById('setorMov').value);
-  const observacao   = document.getElementById('observacao').value.trim();
-  const unidadeSelect = document.getElementById('unidadeMov');
-  const unidadeMov   = unidadeSelect.value;
-  const fatorOpcao   = Number(unidadeSelect.selectedOptions[0]?.dataset.fator || 1);
+  const tipo            = document.getElementById('tipoMov').value;
+  const quantidade      = Number(document.getElementById('quantidade').value);
+  const setorId         = Number(document.getElementById('setorMov').value);
+  const responsavel     = document.getElementById('responsavelMov').value.trim();
+  const observacao      = document.getElementById('observacao').value.trim();
+  const unidadeSelect   = document.getElementById('unidadeMov');
+  const unidadeMov      = unidadeSelect.value;
+  const fatorOpcao      = Number(unidadeSelect.selectedOptions[0]?.dataset.fator || 1);
 
-  if (!setorId || quantidade <= 0) {
-    alert('Preencha o setor e a quantidade.');
+  if (!setorId || quantidade <= 0 || !responsavel) {
+    alert('Preencha o setor, a quantidade e o responsável.');
     return;
   }
 
-  // Converte para unidade mínima antes de enviar
   const quantidadeConvertida = quantidade * fatorOpcao;
 
-  // Valida se tem estoque suficiente para saída
   if (tipo === 'saida' && quantidadeConvertida > Number(produtoSelecionado.qtd_atual)) {
     alert(
       `Estoque insuficiente!\n` +
@@ -295,6 +285,7 @@ document.getElementById('btnSalvar').addEventListener('click', async () => {
     quantidade,
     unidade_mov:           unidadeMov,
     quantidade_convertida: quantidadeConvertida,
+    responsavel_nome:      responsavel,
     observacao,
   };
 

@@ -9,16 +9,16 @@ async function listar(req, res) {
         m.quantidade,
         m.unidade_mov,
         m.quantidade_convertida,
+        m.responsavel_nome  AS responsavel,
         m.observacao,
         m.criado_em,
-        p.nome          AS produto,
+        p.nome              AS produto,
         p.unidade_minima,
-        s.nome          AS setor,
-        u.nome          AS responsavel
+        s.nome              AS setor
       FROM movimentacoes m
-      JOIN produtos  p ON m.produto_id  = p.id
-      JOIN setores   s ON m.setor_id    = s.id
-      JOIN usuarios  u ON m.usuario_id  = u.id
+      JOIN produtos  p ON m.produto_id = p.id
+      JOIN setores   s ON m.setor_id   = s.id
+      JOIN usuarios  u ON m.usuario_id = u.id
       ORDER BY m.criado_em DESC
     `);
     res.json(rows);
@@ -35,12 +35,13 @@ async function criar(req, res) {
     quantidade,
     unidade_mov,
     quantidade_convertida,
+    responsavel_nome,
     observacao,
   } = req.body;
 
   const usuario_id = req.usuario.id;
 
-  if (!produto_id || !setor_id || !tipo || !quantidade || !unidade_mov) {
+  if (!produto_id || !setor_id || !tipo || !quantidade || !unidade_mov || !responsavel_nome) {
     return res.status(400).json({ message: 'Preencha todos os campos obrigatórios.' });
   }
 
@@ -49,22 +50,18 @@ async function criar(req, res) {
   try {
     await connection.beginTransaction();
 
-    // Salva a movimentação
     await connection.execute(
       `INSERT INTO movimentacoes
         (produto_id, setor_id, usuario_id, tipo, quantidade,
-         unidade_mov, quantidade_convertida, observacao)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
+         unidade_mov, quantidade_convertida, responsavel_nome, observacao)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [produto_id, setor_id, usuario_id, tipo, quantidade,
-       unidade_mov, quantidade_convertida, observacao || null]
+       unidade_mov, quantidade_convertida, responsavel_nome, observacao || null]
     );
 
-    // Atualiza o estoque usando a quantidade já convertida
     const operacao = tipo === 'entrada' ? '+' : '-';
     await connection.execute(
-      `UPDATE produtos
-       SET qtd_atual = qtd_atual ${operacao} ?
-       WHERE id = ?`,
+      `UPDATE produtos SET qtd_atual = qtd_atual ${operacao} ? WHERE id = ?`,
       [quantidade_convertida, produto_id]
     );
 

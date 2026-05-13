@@ -128,3 +128,10 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ALERTA COM NOME E DETALHE */
+.alert-nome-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}

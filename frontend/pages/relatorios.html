@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Relatórios — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/produtos.css" />
+  <link rel="stylesheet" href="../css/relatorios.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">📦</div>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item active">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar"></div>
+          <div class="user-details">
+            <span class="user-name"></span>
+            <span class="user-role"></span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">⎋</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Relatórios</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- PAINEL DE FILTROS -->
+        <div class="card filtros-card">
+          <h2 class="card-section-title">🔎 Filtrar Relatório</h2>
+          <div class="filtros-grid">
+            <div class="form-group">
+              <label for="filterTipo">Tipo de Movimentação</label>
+              <select id="filterTipo" class="filter-select">
+                <option value="">Todos</option>
+                <option value="entrada">Entrada</option>
+                <option value="saida">Saída</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filterSetor">Setor</label>
+              <select id="filterSetor" class="filter-select">
+                <option value="">Todos</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="filterDataInicio">Data Início</label>
+              <input type="date" id="filterDataInicio" class="filter-select" />
+            </div>
+            <div class="form-group">
+              <label for="filterDataFim">Data Fim</label>
+              <input type="date" id="filterDataFim" class="filter-select" />
+            </div>
+          </div>
+          <div class="filtros-actions">
+            <button class="btn-secondary" id="btnLimpar">Limpar filtros</button>
+            <button class="btn-primary" id="btnGerar">Gerar Relatório</button>
+          </div>
+        </div>
+
+        <!-- RESULTADOS -->
+        <div id="resultadosSection" hidden>
+
+          <!-- KPIs -->
+          <div class="rel-kpis">
+            <div class="rel-kpi-card">
+              <span class="rel-kpi-label">Total de registros</span>
+              <span class="rel-kpi-value" id="relTotal">0</span>
+            </div>
+            <div class="rel-kpi-card rel-kpi-in">
+              <span class="rel-kpi-label">Entradas</span>
+              <span class="rel-kpi-value" id="relEntradas">0</span>
+            </div>
+            <div class="rel-kpi-card rel-kpi-out">
+              <span class="rel-kpi-label">Saídas</span>
+              <span class="rel-kpi-value" id="relSaidas">0</span>
+            </div>
+            <div class="rel-kpi-card rel-kpi-qty">
+              <span class="rel-kpi-label">Itens movimentados</span>
+              <span class="rel-kpi-value" id="relItens">0</span>
+            </div>
+          </div>
+
+          <!-- TABELA -->
+          <div class="card">
+            <div class="card-header">
+              <h2 class="card-title">📋 Resultados</h2>
+              <button class="btn-export" id="btnExport">⬇ Exportar CSV</button>
+            </div>
+            <div class="table-wrapper">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Produto</th>
+                    <th>Tipo</th>
+                    <th>Quantidade</th>
+                    <th>Convertido</th>
+                    <th>Setor</th>
+                    <th>Responsável</th>
+                    <th>Observação</th>
+                    <th>Data</th>
+                  </tr>
+                </thead>
+                <tbody id="relBody"></tbody>
+              </table>
+            </div>
+            <div class="table-empty" id="tableEmpty" hidden>
+              <span>📊</span>
+              <p>Nenhum registro encontrado para os filtros selecionados.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/relatorios.js"></script>
+</body>
+</html>

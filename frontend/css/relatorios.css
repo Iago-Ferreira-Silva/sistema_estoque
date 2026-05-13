@@ -1,0 +1,114 @@
+/* PAINEL DE FILTROS */
+.filtros-card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card-section-title {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.filtros-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.filtros-grid .form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filtros-grid label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+}
+
+.filtros-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* KPIs DO RELATÓRIO */
+.rel-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.rel-kpi-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: var(--shadow-sm);
+}
+
+.rel-kpi-card.rel-kpi-in {
+  border-left: 4px solid var(--color-accent);
+}
+
+.rel-kpi-card.rel-kpi-out {
+  border-left: 4px solid var(--color-danger);
+}
+
+.rel-kpi-card.rel-kpi-qty {
+  border-left: 4px solid var(--color-primary);
+}
+
+.rel-kpi-label {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.rel-kpi-value {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+/* BOTÃO EXPORTAR */
+.btn-export {
+  padding: 7px 16px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-export:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* RESPONSIVO */
+@media (max-width: 1024px) {
+  .filtros-grid,
+  .rel-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .filtros-grid,
+  .rel-kpis {
+    grid-template-columns: 1fr;
+  }
+}

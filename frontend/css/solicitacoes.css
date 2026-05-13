@@ -1,0 +1,114 @@
+/* ABAS */
+.tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tab-btn {
+  padding: 8px 18px;
+  border-radius: 99px;
+  border: 1.5px solid var(--color-border);
+  background-color: var(--color-surface);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tab-btn:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.tab-btn.active {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+}
+
+.tab-count {
+  background-color: var(--color-danger);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 99px;
+  min-width: 20px;
+  text-align: center;
+}
+
+/* BADGES DE STATUS */
+.badge-pendente {
+  background-color: #FEF9E7;
+  color: var(--color-warning);
+}
+
+.badge-aprovada {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+}
+
+.badge-recusada {
+  background-color: #FDEDEC;
+  color: var(--color-danger);
+}
+
+/* BOTÕES DE AÇÃO DA TABELA */
+.btn-aprovar {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.btn-recusar {
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: #FDEDEC;
+  color: var(--color-danger);
+  transition: opacity 0.2s;
+  cursor: pointer;
+}
+
+.btn-aprovar:hover,
+.btn-recusar:hover {
+  opacity: 0.75;
+}
+
+/* INFO DO PRODUTO SELECIONADO */
+.produto-info-sol {
+  background-color: var(--color-accent-light);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: -8px;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.produto-info-sol-texto {
+  font-weight: 500;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+  .tabs {
+    gap: 6px;
+  }
+
+  .tab-btn {
+    padding: 6px 12px;
+    font-size: 0.8rem;
+  }
+}

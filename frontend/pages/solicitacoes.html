@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Solicitações — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/produtos.css" />
+  <link rel="stylesheet" href="../css/solicitacoes.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">📦</div>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item active">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar"></div>
+          <div class="user-details">
+            <span class="user-name"></span>
+            <span class="user-role"></span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Solicitações</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- ABAS DE STATUS -->
+        <div class="tabs">
+          <button class="tab-btn active" data-status="todas">Todas</button>
+          <button class="tab-btn" data-status="pendente">
+            Pendentes <span class="tab-count" id="countPendente">0</span>
+          </button>
+          <button class="tab-btn" data-status="aprovada">Aprovadas</button>
+          <button class="tab-btn" data-status="recusada">Recusadas</button>
+        </div>
+
+        <!-- BARRA DE AÇÕES -->
+        <div class="actions-bar">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Buscar por produto ou setor..."
+            />
+          </div>
+          <button class="btn-primary" id="btnNovaSolicitacao">+ Nova Solicitação</button>
+        </div>
+
+        <!-- TABELA -->
+        <div class="card">
+          <div class="table-wrapper">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Quantidade</th>
+                  <th>Setor</th>
+                  <th>Solicitante</th>
+                  <th>Justificativa</th>
+                  <th>Data</th>
+                  <th>Status</th>
+                  <th>Ações</th>
+                </tr>
+              </thead>
+              <tbody id="solBody"></tbody>
+            </table>
+          </div>
+          <div class="table-empty" id="tableEmpty" hidden>
+            <span>🧾</span>
+            <p>Nenhuma solicitação encontrada.</p>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL NOVA SOLICITAÇÃO -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Nova Solicitação</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- PRODUTO -->
+        <div class="form-group">
+          <label for="produtoSol">Produto</label>
+          <select id="produtoSol">
+            <option value="">Selecione um produto...</option>
+          </select>
+        </div>
+
+        <!-- INFO DO PRODUTO -->
+        <div class="produto-info-sol" id="produtoInfoSol" hidden>
+          <span class="produto-info-sol-texto" id="produtoInfoSolTexto"></span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="qtdSol">Quantidade</label>
+            <input
+              type="number"
+              id="qtdSol"
+              min="1"
+              placeholder="0"
+              disabled
+            />
+            <small class="input-hint" id="qtdSolHint"></small>
+          </div>
+          <div class="form-group">
+            <label for="setorSol">Setor</label>
+            <select id="setorSol">
+              <option value="">Selecione...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="solicitante">Solicitante</label>
+            <input
+              type="text"
+              id="solicitante"
+              placeholder="Nome do solicitante"
+            />
+          </div>
+          <div class="form-group">
+            <label for="justificativa">Justificativa (opcional)</label>
+            <input
+              type="text"
+              id="justificativa"
+              placeholder="Ex: Reposição para evento"
+            />
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelar">Cancelar</button>
+        <button class="btn-primary" id="btnSalvar">Enviar Solicitação</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/solicitacoes.js"></script>
+</body>
+</html>

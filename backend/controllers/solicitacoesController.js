@@ -4,10 +4,17 @@ async function listar(req, res) {
   try {
     const [rows] = await db.execute(`
       SELECT
-        s.id, s.quantidade, s.justificativa, s.status, s.criado_em,
-        p.nome AS produto,
+        s.id,
+        s.quantidade,
+        s.justificativa,
+        s.status,
+        s.criado_em,
+        s.produto_id,
+        p.nome  AS produto,
+        p.unidade,
+        st.id   AS setor_id,
         st.nome AS setor,
-        u.nome AS solicitante
+        u.nome  AS solicitante
       FROM solicitacoes s
       JOIN produtos  p  ON s.produto_id = p.id
       JOIN setores   st ON s.setor_id   = st.id
@@ -30,7 +37,9 @@ async function criar(req, res) {
 
   try {
     const [result] = await db.execute(
-      'INSERT INTO solicitacoes (produto_id, setor_id, usuario_id, quantidade, justificativa) VALUES (?, ?, ?, ?, ?)',
+      `INSERT INTO solicitacoes
+        (produto_id, setor_id, usuario_id, quantidade, justificativa)
+       VALUES (?, ?, ?, ?, ?)`,
       [produto_id, setor_id, usuario_id, quantidade, justificativa || null]
     );
     res.status(201).json({ id: result.insertId, message: 'Solicitação criada com sucesso.' });
@@ -40,7 +49,7 @@ async function criar(req, res) {
 }
 
 async function atualizarStatus(req, res) {
-  const { id } = req.params;
+  const { id }     = req.params;
   const { status } = req.body;
 
   if (!['aprovada', 'recusada'].includes(status)) {
@@ -48,7 +57,10 @@ async function atualizarStatus(req, res) {
   }
 
   try {
-    await db.execute('UPDATE solicitacoes SET status = ? WHERE id = ?', [status, id]);
+    await db.execute(
+      'UPDATE solicitacoes SET status = ? WHERE id = ?',
+      [status, id]
+    );
     res.json({ message: `Solicitação ${status} com sucesso.` });
   } catch (err) {
     res.status(500).json({ message: 'Erro ao atualizar status.' });

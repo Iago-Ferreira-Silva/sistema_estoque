@@ -114,7 +114,7 @@ function atualizarPreviewConversao() {
     return;
   }
 
-  const quantidadeConvertida = quantidade * fatorOpcao;
+  const quantidadeConvertida = Math.round((quantidade * fatorOpcao) * 100) / 100;
   const p = produtoSelecionado;
 
   preview.hidden = false;
@@ -265,7 +265,7 @@ document.getElementById('btnSalvar').addEventListener('click', async () => {
     return;
   }
 
-  const quantidadeConvertida = quantidade * fatorOpcao;
+  const quantidadeConvertida = Math.round((quantidade * fatorOpcao) * 100) / 100;
 
   if (tipo === 'saida' && quantidadeConvertida > Number(produtoSelecionado.qtd_atual)) {
     alert(

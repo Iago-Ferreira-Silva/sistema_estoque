@@ -238,8 +238,8 @@ document.getElementById('btnSalvar').addEventListener('click', async () => {
     unidade,
     unidade_minima:  unidadeMinima,
     fator_conversao: fatorConversao,
-    qtd_atual:       qtdAtual  * fatorConversao,
-    qtd_minima:      qtdMinima * fatorConversao,
+    qtd_atual:  Math.round((qtdAtual  * fatorConversao) * 100) / 100,
+    qtd_minima: Math.round((qtdMinima * fatorConversao) * 100) / 100,
     descricao,
   };
 

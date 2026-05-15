@@ -7,11 +7,10 @@ let editandoId = null;
 function getStatus(qtdAtual, qtdMinima) {
   const atual  = Number(qtdAtual);
   const minima = Number(qtdMinima);
-
-  if (atual === 0)             return { label: 'Sem estoque', cls: 'badge-danger' };
-  if (atual <= minima)         return { label: 'Crítico',     cls: 'badge-danger' };
-  if (atual <= minima * 1.5)   return { label: 'Atenção',     cls: 'badge-warning' };
-  return                              { label: 'Normal',      cls: 'badge-ok' };
+  if (atual === 0)           return { label: 'Sem estoque', cls: 'badge-danger' };
+  if (atual <= minima)       return { label: 'Crítico',     cls: 'badge-danger' };
+  if (atual <= minima * 1.5) return { label: 'Atenção',     cls: 'badge-warning' };
+  return                            { label: 'Normal',      cls: 'badge-ok' };
 }
 
 const categorias = {
@@ -27,10 +26,6 @@ const unidadeNome = {
   lt:  'Litro',
   kg:  'Quilo',
 };
-
-function formatarQtd(qtd, unidadeMin) {
-  return `${Number(qtd).toLocaleString('pt-BR')} ${unidadeMin}`;
-}
 
 // CARREGAR PRODUTOS DA API
 async function carregarProdutos() {
@@ -59,7 +54,7 @@ function renderTabela(lista) {
 
   empty.hidden = true;
   tbody.innerHTML = lista.map(p => {
-    const s            = getStatus(p.qtd_atual, p.qtd_minima);
+    const s              = getStatus(p.qtd_atual, p.qtd_minima);
     const qtdAtualPrinc  = Number(p.qtd_atual  / p.fator_conversao).toLocaleString('pt-BR');
     const qtdMinimaPrinc = Number(p.qtd_minima / p.fator_conversao).toLocaleString('pt-BR');
     const qtdAtualMin    = Number(p.qtd_atual).toLocaleString('pt-BR');
@@ -93,6 +88,7 @@ function renderTabela(lista) {
       </tr>`;
   }).join('');
 }
+
 // FILTRAR
 function filtrar() {
   const termo = document.getElementById('searchInput').value.toLowerCase();
@@ -106,8 +102,6 @@ document.getElementById('searchInput').addEventListener('input', filtrar);
 document.getElementById('filterCategoria').addEventListener('change', filtrar);
 
 // LÓGICA DE CONVERSÃO NO MODAL
-// Quando o usuário muda a unidade,
-// atualiza os campos automaticamente
 function atualizarCamposConversao() {
   const unidade        = document.getElementById('unidade').value;
   const unidadeMinima  = document.getElementById('unidadeMinima');
@@ -118,11 +112,10 @@ function atualizarCamposConversao() {
   const qtdAtualHint   = document.getElementById('qtdAtualHint');
   const qtdMinimaHint  = document.getElementById('qtdMinimaHint');
 
-  // Se for unidade simples, preenche automático e bloqueia
   if (unidade === 'un') {
-    unidadeMinima.value    = 'unidade';
-    unidadeMinima.disabled = true;
-    fatorConversao.value   = 1;
+    unidadeMinima.value     = 'unidade';
+    unidadeMinima.disabled  = true;
+    fatorConversao.value    = 1;
     fatorConversao.disabled = true;
     fatorExemplo.textContent = '1 unidade = 1 unidade (sem conversão)';
     aviso.hidden = true;
@@ -131,11 +124,9 @@ function atualizarCamposConversao() {
     return;
   }
 
-  // Libera os campos para edição
   unidadeMinima.disabled  = false;
   fatorConversao.disabled = false;
 
-  // Sugestões automáticas por unidade
   if (unidade === 'lt') {
     unidadeMinima.placeholder  = 'mililitro';
     fatorConversao.placeholder = '1000';
@@ -154,10 +145,9 @@ function atualizarCamposConversao() {
     fatorExemplo.textContent   = 'Quantas unidades cabem em um pacote?';
   }
 
-  // Atualiza aviso de conversão
-  const fator      = fatorConversao.value || '?';
-  const unMin      = unidadeMinima.value  || '?';
-  const unPrinc    = unidadeNome[unidade] || unidade;
+  const fator   = fatorConversao.value || '?';
+  const unMin   = unidadeMinima.value  || '?';
+  const unPrinc = unidadeNome[unidade] || unidade;
 
   aviso.hidden = false;
   avisoTexto.textContent =
@@ -169,29 +159,28 @@ function atualizarCamposConversao() {
   qtdMinimaHint.textContent = `Informe o estoque mínimo em ${unidadeNome[unidade]?.toLowerCase() || unidade}s`;
 }
 
-// Atualiza aviso quando o fator ou unidade mínima muda
 document.getElementById('unidade').addEventListener('change', atualizarCamposConversao);
 document.getElementById('fatorConversao').addEventListener('input', atualizarCamposConversao);
 document.getElementById('unidadeMinima').addEventListener('input', atualizarCamposConversao);
 
-// MODAL
+// MODAL DE CADASTRO/EDIÇÃO
 const overlay = document.getElementById('modalOverlay');
 
 function limparForm() {
-  document.getElementById('nomeProduto').value   = '';
-  document.getElementById('categoria').value     = '';
-  document.getElementById('unidade').value       = 'un';
-  document.getElementById('unidadeMinima').value = 'unidade';
+  document.getElementById('nomeProduto').value    = '';
+  document.getElementById('categoria').value      = '';
+  document.getElementById('unidade').value        = 'un';
+  document.getElementById('unidadeMinima').value  = 'unidade';
   document.getElementById('fatorConversao').value = '1';
-  document.getElementById('qtdAtual').value      = '';
-  document.getElementById('qtdMinima').value     = '';
-  document.getElementById('descricao').value     = '';
-  document.getElementById('fatorExemplo').textContent    = '1 unidade = 1 unidade (sem conversão)';
-  document.getElementById('conversaoAviso').hidden       = true;
-  document.getElementById('qtdAtualHint').textContent    = 'Informe a quantidade em unidades';
-  document.getElementById('qtdMinimaHint').textContent   = 'Informe o mínimo em unidades';
-  document.getElementById('unidadeMinima').disabled      = true;
-  document.getElementById('fatorConversao').disabled     = true;
+  document.getElementById('qtdAtual').value       = '';
+  document.getElementById('qtdMinima').value      = '';
+  document.getElementById('descricao').value      = '';
+  document.getElementById('fatorExemplo').textContent     = '1 unidade = 1 unidade (sem conversão)';
+  document.getElementById('conversaoAviso').hidden        = true;
+  document.getElementById('qtdAtualHint').textContent     = 'Informe a quantidade em unidades';
+  document.getElementById('qtdMinimaHint').textContent    = 'Informe o mínimo em unidades';
+  document.getElementById('unidadeMinima').disabled       = true;
+  document.getElementById('fatorConversao').disabled      = true;
 }
 
 function fecharModal() {
@@ -231,7 +220,6 @@ document.getElementById('btnSalvar').addEventListener('click', async () => {
     return;
   }
 
-  // Converte as quantidades para unidade mínima antes de salvar
   const dados = {
     nome,
     categoria,
@@ -270,13 +258,10 @@ function abrirEdicao(id) {
   document.getElementById('unidade').value            = p.unidade;
   document.getElementById('unidadeMinima').value      = p.unidade_minima;
   document.getElementById('fatorConversao').value     = p.fator_conversao;
+  document.getElementById('qtdAtual').value           = p.qtd_atual  / p.fator_conversao;
+  document.getElementById('qtdMinima').value          = p.qtd_minima / p.fator_conversao;
+  document.getElementById('descricao').value          = p.descricao || '';
 
-  // Mostra as quantidades convertidas de volta para a unidade principal
-  document.getElementById('qtdAtual').value  = p.qtd_atual  / p.fator_conversao;
-  document.getElementById('qtdMinima').value = p.qtd_minima / p.fator_conversao;
-  document.getElementById('descricao').value = p.descricao || '';
-
-  // Libera ou bloqueia campos conforme a unidade
   const ehUnidade = p.unidade === 'un';
   document.getElementById('unidadeMinima').disabled  = ehUnidade;
   document.getElementById('fatorConversao').disabled = ehUnidade;
@@ -285,18 +270,58 @@ function abrirEdicao(id) {
   overlay.hidden = false;
 }
 
-// EXCLUIR
-async function excluirProduto(id) {
-  if (!confirm('Deseja excluir este produto?')) return;
+// MODAL DE CONFIRMAÇÃO DE EXCLUSÃO
+const modalConfirmacao     = document.getElementById('modalConfirmacao');
+const confirmacaoNome      = document.getElementById('confirmacaoNome');
+const confirmacaoConfirmar = document.getElementById('confirmacaoConfirmar');
+let idParaExcluir = null;
+
+function abrirConfirmacaoExclusao(id) {
+  const produto = produtos.find(p => p.id === id);
+  if (!produto) return;
+  idParaExcluir = id;
+  confirmacaoNome.textContent = produto.nome;
+  modalConfirmacao.hidden = false;
+}
+
+function fecharConfirmacao() {
+  modalConfirmacao.hidden = true;
+  idParaExcluir = null;
+}
+
+document.getElementById('confirmacaoClose').addEventListener('click', fecharConfirmacao);
+document.getElementById('confirmacaoCancelar').addEventListener('click', fecharConfirmacao);
+modalConfirmacao.addEventListener('click', e => {
+  if (e.target === modalConfirmacao) fecharConfirmacao();
+});
+
+confirmacaoConfirmar.addEventListener('click', async () => {
+  if (!idParaExcluir) return;
+
   try {
-    await fetch(`http://localhost:3000/api/produtos/${id}`, {
-      method: 'DELETE', headers: getHeaders(),
+    const response = await fetch(`http://localhost:3000/api/produtos/${idParaExcluir}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
     });
-    mostrarToast('Produto excluído.');
+
+    if (!response.ok) {
+      const data = await response.json();
+      mostrarToast(data.message || 'Erro ao excluir produto.', 'error');
+      fecharConfirmacao();
+      return;
+    }
+
+    mostrarToast('Produto excluído com sucesso!');
+    fecharConfirmacao();
     await carregarProdutos();
-  } catch {
-    mostrarToast('Erro ao excluir.', 'error');
+  } catch (err) {
+    mostrarToast('Erro ao excluir produto.', 'error');
+    fecharConfirmacao();
   }
+});
+
+function excluirProduto(id) {
+  abrirConfirmacaoExclusao(id);
 }
 
 // INICIALIZAÇÃO

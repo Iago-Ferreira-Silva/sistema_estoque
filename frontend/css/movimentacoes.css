@@ -110,11 +110,7 @@
   }
 }
 
-/* ================================
-   CARD DE INFORMAÇÕES DO PRODUTO
-   Aparece quando o usuário seleciona
-   um produto no modal
-================================ */
+/* CARD DE INFORMAÇÕES DO PRODUTO */
 .produto-info-card {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -146,10 +142,7 @@
   color: var(--color-text);
 }
 
-/* ================================
-   PREVIEW DA CONVERSÃO
-   Mostra o resultado em tempo real
-================================ */
+/* PREVIEW DA CONVERSÃO */
 .conversao-preview {
   display: flex;
   align-items: center;
@@ -173,9 +166,7 @@
   line-height: 1.5;
 }
 
-/* ================================
-   RESPONSIVO
-================================ */
+/* RESPONSIVO */
 @media (max-width: 540px) {
   .produto-info-card {
     grid-template-columns: 1fr;

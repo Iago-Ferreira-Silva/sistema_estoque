@@ -6,9 +6,11 @@ function getToken() {
 }
 
 function getHeaders() {
+  const token = localStorage.getItem('token');
+
   return {
     'Content-Type': 'application/json',
-    'Authorization': `Bearer ${getToken()}`,
+    'Authorization': `Bearer ${token}`
   };
 }
 

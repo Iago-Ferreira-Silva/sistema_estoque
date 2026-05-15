@@ -59,10 +59,28 @@ async function atualizar(req, res) {
 
 async function excluir(req, res) {
   const { id } = req.params;
+
   try {
-    await db.execute('DELETE FROM produtos WHERE id = ?', [id]);
+    const [result] = await db.execute(
+      'DELETE FROM produtos WHERE id = ?',
+      [id]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: 'Produto não encontrado.' });
+    }
+
     res.json({ message: 'Produto excluído com sucesso.' });
+
   } catch (err) {
+    console.error(err);
+
+    if (err.code === 'ER_ROW_IS_REFERENCED_2') {
+      return res.status(400).json({
+        message: 'Não é possível excluir este produto pois ele possui movimentações cadastradas.'
+      });
+    }
+
     res.status(500).json({ message: 'Erro ao excluir produto.' });
   }
 }

@@ -51,7 +51,11 @@ async function atualizar(req, res) {
     }
 
     res.json({ message: 'Usuário atualizado com sucesso.' });
+
   } catch (err) {
+    if (err.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ message: 'Este e-mail já está em uso por outro usuário.' });
+    }
     res.status(500).json({ message: 'Erro ao atualizar usuário.' });
   }
 }

@@ -1,0 +1,144 @@
+/* GRID DE CARDS */
+.usuarios-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+/* CARD DE USUÁRIO */
+.usuario-card {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: box-shadow 0.2s;
+}
+
+.usuario-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.usuario-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.usuario-avatar-card {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.avatar-gestor      { background-color: var(--color-primary); }
+.avatar-coordenador { background-color: #8E44AD; }
+.avatar-secretario  { background-color: var(--color-accent); }
+.avatar-agente      { background-color: var(--color-warning); }
+
+.usuario-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.usuario-nome {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuario-email {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.usuario-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.usuario-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+}
+
+.usuario-meta-label {
+  color: var(--color-text-muted);
+}
+
+.usuario-meta-value {
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.usuario-card-footer {
+  display: flex;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--color-border);
+}
+
+/* BADGES DE PERFIL */
+.badge-gestor      { background-color: #EBF5FB; color: var(--color-primary); }
+.badge-coordenador { background-color: #F5EEF8; color: #8E44AD; }
+.badge-secretario  { background-color: var(--color-accent-light); color: var(--color-accent); }
+.badge-agente      { background-color: #FEF9E7; color: var(--color-warning); }
+
+/* STATUS ATIVO/INATIVO */
+.status-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.status-dot::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.status-ativo::before   { background-color: var(--color-accent); }
+.status-inativo::before { background-color: var(--color-text-light); }
+.status-ativo           { color: var(--color-accent); }
+.status-inativo         { color: var(--color-text-light); }
+
+/* AVISO DE SENHA */
+.senha-aviso {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  margin-top: -8px;
+}
+
+/* RESPONSIVO */
+@media (max-width: 600px) {
+  .usuarios-grid {
+    grid-template-columns: 1fr;
+  }
+}

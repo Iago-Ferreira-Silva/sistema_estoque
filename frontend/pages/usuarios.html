@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Usuários — EstoqueIF</title>
+  <link rel="stylesheet" href="../css/global.css" />
+  <link rel="stylesheet" href="../css/layout.css" />
+  <link rel="stylesheet" href="../css/produtos.css" />
+  <link rel="stylesheet" href="../css/usuarios.css" />
+</head>
+<body>
+
+  <div class="app-wrapper">
+
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">📦</div>
+        <span class="sidebar-title">EstoqueIF</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item">
+          <span class="nav-icon">🏠</span>
+          <span class="nav-label">Dashboard</span>
+        </a>
+        <a href="produtos.html" class="nav-item">
+          <span class="nav-icon">📦</span>
+          <span class="nav-label">Produtos</span>
+        </a>
+        <a href="setores.html" class="nav-item">
+          <span class="nav-icon">🏢</span>
+          <span class="nav-label">Setores</span>
+        </a>
+        <a href="movimentacoes.html" class="nav-item">
+          <span class="nav-icon">🔄</span>
+          <span class="nav-label">Movimentações</span>
+        </a>
+        <a href="solicitacoes.html" class="nav-item">
+          <span class="nav-icon">🧾</span>
+          <span class="nav-label">Solicitações</span>
+        </a>
+        <a href="relatorios.html" class="nav-item">
+          <span class="nav-icon">📊</span>
+          <span class="nav-label">Relatórios</span>
+        </a>
+        <a href="usuarios.html" class="nav-item active">
+          <span class="nav-icon">👤</span>
+          <span class="nav-label">Usuários</span>
+        </a>
+      </nav>
+      <div class="sidebar-footer">
+        <div class="user-info">
+          <div class="user-avatar"></div>
+          <div class="user-details">
+            <span class="user-name"></span>
+            <span class="user-role"></span>
+          </div>
+        </div>
+        <button class="btn-logout" id="btnLogout" title="Sair">Sair</button>
+      </div>
+    </aside>
+
+    <div class="main-content">
+
+      <header class="topbar">
+        <button class="sidebar-toggle" id="sidebarToggle">☰</button>
+        <div class="topbar-info">
+          <h1 class="page-title">Usuários</h1>
+          <span class="page-date" id="currentDate"></span>
+        </div>
+      </header>
+
+      <main class="content-area">
+
+        <!-- BARRA DE AÇÕES -->
+        <div class="actions-bar">
+          <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input
+              type="text"
+              id="searchInput"
+              class="search-input"
+              placeholder="Buscar por nome ou e-mail..."
+            />
+          </div>
+          <div class="actions-right">
+            <select id="filterPerfil" class="filter-select">
+              <option value="">Todos os perfis</option>
+              <option value="gestor">Gestor</option>
+              <option value="coordenador">Coordenador</option>
+              <option value="secretario">Secretário</option>
+              <option value="agente">Agente Administrativo</option>
+            </select>
+            <button class="btn-primary" id="btnNovoUsuario">+ Novo Usuário</button>
+          </div>
+        </div>
+
+        <!-- GRID DE CARDS -->
+        <div class="usuarios-grid" id="usuariosGrid"></div>
+
+        <div class="table-empty" id="tableEmpty" hidden>
+          <span>👤</span>
+          <p>Nenhum usuário encontrado.</p>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL DE CADASTRO/EDIÇÃO -->
+  <div class="modal-overlay" id="modalOverlay" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modalTitle">Novo Usuário</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="nomeUsuario">Nome completo</label>
+            <input type="text" id="nomeUsuario" placeholder="Ex: Maria Silva" />
+          </div>
+          <div class="form-group">
+            <label for="emailUsuario">E-mail</label>
+            <input type="email" id="emailUsuario" placeholder="email@ifce.edu.br" />
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="perfilUsuario">Perfil de acesso</label>
+            <select id="perfilUsuario">
+              <option value="">Selecione...</option>
+              <option value="gestor">Gestor</option>
+              <option value="coordenador">Coordenador</option>
+              <option value="secretario">Secretário</option>
+              <option value="agente">Agente Administrativo</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="setorUsuario">Setor</label>
+            <select id="setorUsuario">
+              <option value="">Selecione...</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group" id="senhaGroup">
+          <label for="senhaUsuario" id="senhaLabel">Senha provisória</label>
+          <input type="password" id="senhaUsuario" placeholder="Mínimo 8 caracteres" />
+        </div>
+
+        <div class="form-group" id="confirmarSenhaGroup" hidden>
+          <label for="confirmarSenha">Confirmar nova senha</label>
+          <input type="password" id="confirmarSenha" placeholder="Repita a nova senha" />
+        </div>
+
+        <p class="senha-aviso" id="senhaAviso" hidden>
+          💡 Deixe em branco para manter a senha atual.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" id="btnCancelar">Cancelar</button>
+        <button class="btn-primary" id="btnSalvar">Salvar Usuário</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/utils.js"></script>
+  <script src="../js/usuarios.js"></script>
+</body>
+</html>

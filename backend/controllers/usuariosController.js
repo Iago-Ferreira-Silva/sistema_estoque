@@ -37,6 +37,19 @@ async function atualizar(req, res) {
   const { nome, email, perfil, setor, senha } = req.body;
 
   try {
+    // Verifica se o e-mail já pertence a outro usuário
+    const [emailExistente] = await db.execute(
+      'SELECT id FROM usuarios WHERE email = ? AND id != ?',
+      [email, id]
+    );
+
+    if (emailExistente.length > 0) {
+      return res.status(409).json({
+        message: 'Este e-mail já está em uso por outro usuário.'
+      });
+    }
+
+    // Atualiza com ou sem senha
     if (senha && senha.length >= 8) {
       const hash = await bcrypt.hash(senha, 10);
       await db.execute(
@@ -53,9 +66,7 @@ async function atualizar(req, res) {
     res.json({ message: 'Usuário atualizado com sucesso.' });
 
   } catch (err) {
-    if (err.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ message: 'Este e-mail já está em uso por outro usuário.' });
-    }
+    console.error('Erro ao atualizar usuário:', err);
     res.status(500).json({ message: 'Erro ao atualizar usuário.' });
   }
 }
